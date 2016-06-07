@@ -193,6 +193,12 @@ define(['module'], function (module) {
                 useXhr = (masterConfig.useXhr) ||
                          text.useXhr;
 
+            // Do not load a file when building and it's an empty: url in path configuration
+            if (config.isBuild && typeof config.paths[url] !== "undefined" && config.paths[url].indexOf('empty:') === 0) {
+                onLoad();
+                return;
+            }
+
             // Do not load if it is an empty: url
             if (url.indexOf('empty:') === 0) {
                 onLoad();
